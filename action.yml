@@ -16,8 +16,7 @@ inputs:
     required: false
   password:
     description: 'The password for the repository.'
-    default: '${{ secrets.GITHUB_TOKEN }}'
-    required: false
+    required: true
 
 runs:
   using: 'composite'

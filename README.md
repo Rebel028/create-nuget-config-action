@@ -10,7 +10,7 @@ This GitHub Action generates a `NuGet.Config` file with customizable parameters 
 
 - `username` (optional): The username for the private repository. Defaults to `${{ github.actor }}`.
 
-- `password` (optional): The password for the private repository. Defaults to `${{ secrets.GITHUB_TOKEN }}`.
+- `password` (optional): The password or token for the private repository. 
 
 ## Usage
 
@@ -39,7 +39,7 @@ jobs:
           file-path: 'custom/NuGet.Config'
           repository-url: 'https://custom.repo.url/index.json'
           username: 'custom-username'
-          password: '${{ secrets.CUSTOM_TOKEN }}'
+          password: '${{ secrets.GITHUB_TOKEN }}'
 ```
 
 ### Default Usage
@@ -49,7 +49,6 @@ If no inputs are provided, the action uses the following defaults:
 - `file-path`: `NuGet.Config`
 - `repository-url`: `https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json`
 - `username`: `${{ github.actor }}`
-- `password`: `${{ secrets.GITHUB_TOKEN }}`
 
 ## License
 
