@@ -1,0 +1,45 @@
+name: 'Create NuGet.Config'
+description: 'Creates a NuGet.Config file with optional inputs for file path, repository URL, username, and password.'
+
+inputs:
+  file-path:
+    description: 'The path to the NuGet.Config file.'
+    default: 'NuGet.Config'
+    required: false
+  repository-url:
+    description: 'The URL of the NuGet package repository.'
+    default: 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json'
+    required: false
+  username:
+    description: 'The username for the repository.'
+    default: '${{ github.actor }}'
+    required: false
+  password:
+    description: 'The password for the repository.'
+    default: '${{ secrets.GITHUB_TOKEN }}'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create NuGet.Config
+      shell: bash
+      run: |
+        cat <<EOF > ${{ inputs.file-path }}
+        <?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <packageSources>
+            <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+            <add key="github" value="${{ inputs.repository-url }}" />
+          </packageSources>
+          <packageSourceCredentials>
+            <github>
+              <add key="Username" value="${{ inputs.username }}" />
+              <add key="ClearTextPassword" value="${{ inputs.password }}" />
+            </github>
+          </packageSourceCredentials>
+          <disabledPackageSources>
+            <add key="Local NuGet files" value="true" />
+          </disabledPackageSources>
+        </configuration>
+        EOF
